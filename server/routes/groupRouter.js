@@ -1,0 +1,18 @@
+import express from "express";
+import { verifyUser } from "../middleware/auth.js";
+import { listGroups, createGroup, addGroupMembers, getGroupMessages, sendGroupMessage, editGroupMessage, deleteGroupMessage, toggleGroupReaction, toggleGroupPin, markGroupRead, removeGroupMember, forwardGroupMessage } from "../controllers/groupController.js";
+const router = express.Router();
+router.use(verifyUser);
+router.get("/", listGroups);
+router.post("/", createGroup);
+router.post("/:id/members", addGroupMembers);
+router.delete("/:id/members/:memberId", removeGroupMember);
+router.post("/:id/read", markGroupRead);
+router.get("/:id/messages", getGroupMessages);
+router.post("/:id/messages", sendGroupMessage);
+router.post("/messages/:id/forward", forwardGroupMessage);
+router.patch("/messages/:id", editGroupMessage);
+router.post("/messages/:id/reactions", toggleGroupReaction);
+router.patch("/messages/:id/pin", toggleGroupPin);
+router.delete("/messages/:id", deleteGroupMessage);
+export default router;
